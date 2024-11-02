@@ -1,9 +1,18 @@
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function UsersDetails({ data }) {
+  const router = useRouter();
   return (
     <div>
-      {data.name} {data.email}
+      {router.isFallback ? (
+        <div>fallback true</div>
+      ) : (
+        <div>
+          page
+          {data.name} {data.email}
+        </div>
+      )}
     </div>
   );
 }
@@ -11,13 +20,14 @@ export default function UsersDetails({ data }) {
 export async function getStaticPaths() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users/");
   const data = await res.json();
+  const newData = data.slice(0, 4);
 
-  const paths = data.map((item) => ({
+  const paths = newData.map((item) => ({
     params: { userid: item.id.toString() },
   }));
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
