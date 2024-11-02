@@ -34,9 +34,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const { params } = context;
   // console.log("params", params);
-  const res = await fetch(
-    `https://jsonplaceholder.typicode.com/users/${params.userid}`
-  );
+  const res = await fetch(`http://localhost:3001/users/${params.userid}`);
   const data = await res.json();
   if (!data.name) {
     return {
